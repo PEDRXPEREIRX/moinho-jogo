@@ -1,32 +1,32 @@
 #include <stdio.h>
 
-int tabuleiro[24] = {0};
+int tabuleiro[24] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 
-int vizinhos[24][4] = {
-    {1,  9, -1, -1},
-    {0,  2,  4, -1},
-    {1, 14, -1, -1},
-    {4, 10, -1, -1},
-    {3,  5,  1,  7},
-    {4, 13, -1, -1},
-    {7, 11, -1, -1},
-    {6,  8,  4, -1},
-    {7, 12, -1, -1},
-    {0, 10, 21, -1},
-    {9, 11,  3, 18},
-    {10,  6, 15, -1},
-    {8, 13, 17, -1},
-    {12, 14,  5, 20},
-    {13,  2, 23, -1},
-    {11, 16, -1, -1},
-    {15, 17, 19, -1},
-    {16, 12, -1, -1},
-    {10, 19, -1, -1},
-    {18, 20, 16, 22},
-    {19, 13, -1, -1},
-    {9, 22, -1, -1},
-    {21, 23, 19, -1},
-    {22, 14, -1, -1},
+int vizinhos[24][4] = { // Vizinhos de cada posicao:
+    {1,  9, -1, -1},    // 00
+    {0,  2,  4, -1},    // 01
+    {1, 14, -1, -1},    // 02
+    {4, 10, -1, -1},    // 03
+    {3,  5,  1,  7},    // 04
+    {4, 13, -1, -1},    // 05
+    {7, 11, -1, -1},    // 06
+    {6,  8,  4, -1},    // 07
+    {7, 12, -1, -1},    // 08
+    {0, 10, 21, -1},    // 09
+    {9, 11,  3, 18},    // 10
+    {10,  6, 15, -1},   // 11
+    {8, 13, 17, -1},    // 12
+    {12, 14,  5, 20},   // 13
+    {13,  2, 23, -1},   // 14
+    {11, 16, -1, -1},   // 15
+    {15, 17, 19, -1},   // 16
+    {16, 12, -1, -1},   // 17
+    {10, 19, -1, -1},   // 18
+    {18, 20, 16, 22},   // 19
+    {19, 13, -1, -1},   // 20
+    {9, 22, -1, -1},    // 21
+    {21, 23, 19, -1},   // 22
+    {22, 14, -1, -1},   // 23
 };
 
 
@@ -49,29 +49,29 @@ int moinhos[16][3] = {
     {2, 14, 23},
 };
 
-char simbolo(int pos){
+char sinal(int pos){
     if(tabuleiro[pos] == 1)
         return 'X';
     if(tabuleiro[pos] == 2)
         return 'O';
-    return '@';
+    return '#';
 }
 
 void imprimir_tabuleiro(void) {
-    printf("\n          M O I N H O\n\n");
-    printf("  %c------------%c------------%c\n", simbolo(0), simbolo(1), simbolo(2));
+    printf("\n             MOINHO\n\n");
+    printf("  %c------------%c------------%c\n", sinal(0), sinal(1), sinal(2));
     printf("  |            |            |\n");
-    printf("  |   %c--------%c---------%c  |\n", simbolo(3), simbolo(4), simbolo(5));
+    printf("  |   %c--------%c--------%c   |\n", sinal(3), sinal(4), sinal(5));
     printf("  |   |        |        |   |\n");
-    printf("  |   |   %c----%c----%c   |   |\n", simbolo(6), simbolo(7), simbolo(8));
+    printf("  |   |   %c----%c----%c   |   |\n", sinal(6), sinal(7), sinal(8));
     printf("  |   |   |         |   |   |\n");
-    printf("  %c---%c---%c         %c---%c---%c\n", simbolo(9), simbolo(10), simbolo(11), simbolo(12), simbolo(13), simbolo(14));
+    printf("  %c---%c---%c         %c---%c---%c\n", sinal(9), sinal(10), sinal(11), sinal(12), sinal(13), sinal(14));
     printf("  |   |   |         |   |   |\n");
-    printf("  |   |   %c----%c----%c   |   |\n", simbolo(15), simbolo(16), simbolo(17));
+    printf("  |   |   %c----%c----%c   |   |\n", sinal(15), sinal(16), sinal(17));
     printf("  |   |        |        |   |\n");
-    printf("  |   %c--------%c---------%c  |\n", simbolo(18), simbolo(19), simbolo(20));
+    printf("  |   %c--------%c--------%c   |\n", sinal(18), sinal(19), sinal(20));
     printf("  |            |            |\n");
-    printf("  %c------------%c------------%c\n\n", simbolo(21), simbolo(22), simbolo(23));
+    printf("  %c------------%c------------%c\n\n", sinal(21), sinal(22), sinal(23));
     printf("  Jogador 1: X    Jogador 2: O\n\n");
 
     printf("          REFERENCIA\n\n");
@@ -83,9 +83,9 @@ void imprimir_tabuleiro(void) {
     printf("  |   |   |         |   |   |\n");
     printf("  9---10--11        12--13--14\n");
     printf("  |   |   |         |   |   |\n");
-    printf("  |   |   15---16---17   |   |\n");
+    printf("  |   |   15---16---17  |   |\n");
     printf("  |   |        |        |   |\n");
-    printf("  |   18-------19-------20   |\n");
+    printf("  |   18-------19-------20  |\n");
     printf("  |            |            |\n");
     printf("  21-----------22-----------23\n\n");
 }
@@ -189,27 +189,31 @@ void remover_peca(int jogador){
 }
 
 int mover_peca(int jogador){
-    int posA, posB;
+    int posA, posB = -1;
 
     do{
         imprimir_tabuleiro();
 
         printf("Jogador %d, escolha uma peca para mover: ", jogador);
         scanf("%d", &posA);
-        printf("Agora escolha uma posicao valida: ");
-        scanf("%d", &posB);
 
         if(!posicao_valida(posA))
-            printf("Posicao invalida! Escolha outra: \n");
-        else if(!vizinhos_validos(posA, posB))
-            printf("Nao e vizinho! Escolha outra: \n");
+            printf("Posicao invalida!\n");
         else if(tabuleiro[posA] != jogador)
-            printf("Nao tem peca na posicao para troca! Escolha outra: ");
-        else if(!posicao_vazia(posB))
-            printf("Posicao ocupada! Escolha outra: \n");
+            printf("Nao e sua peca para mover!");
+        else{
+            printf("Escolha a posicao valida: ");
+            scanf("%d", &posB);
+            if(!posicao_vazia(posB))
+                printf("Posicao ocupada!\n");
+            else if(!vizinhos_validos(posA, posB))
+                printf("Nao e vizinho!\n");
+        }
     } while(!posicao_valida(posA) || !vizinhos_validos(posA, posB) || tabuleiro[posA] != jogador || !posicao_vazia(posB));
+
     tabuleiro[posB] = jogador;
     tabuleiro[posA] = 0;
+
     return posB;
 }
 
@@ -227,7 +231,7 @@ int main(){
     }
 
     do{
-        mover_peca(jogador);
+        pos = mover_peca(jogador);
         if(moinho_valido(jogador, pos))
             remover_peca(jogador);
         vencedor = verificar_vitoria();
