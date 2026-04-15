@@ -266,13 +266,18 @@ int main(){
     int jogador = 1, pos, vencedor;
 
     for(int i=0; i<18; i++){
-        pos = colocar_peca(jogador);
-        if(moinho_valido(jogador, pos))
-            remover_peca(jogador);
-        if(jogador == 1)
-            jogador = 2;
-        else if(jogador == 2)
+        if(jogador==1){
+            pos = colocar_peca(jogador);
+            if(moinho_valido(jogador, pos))
+                remover_peca(jogador);
+        jogador = 2;
+        }
+        else{
+            pos = colocar_peca_maquina();
+            if(moinho_valido(2, pos))
+                remover_peca_maquina(jogador);
             jogador = 1;
+        }
     }
 
     do{
