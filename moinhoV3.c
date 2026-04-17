@@ -149,7 +149,7 @@ int verificar_vitoria(void){
     return 0;
 }
 
-int colocar_peca(int jogador){
+int colocar_peca(int jogador, int *pecasA, int *pecasB){
     int pos;
 
     do{
@@ -238,7 +238,7 @@ int main(){
     int jogador = 1, jogA = 9, jogB = 9, pos, vencedor;
 
     for(int i=0; i<18; i++){
-        pos = colocar_peca(jogador);
+        pos = colocar_peca(jogador, &jogA, &jogB);
         if(moinho_valido(jogador, pos))
             remover_peca(jogador);
         jogador = (jogador==1) ? 2:1;
