@@ -150,12 +150,17 @@ int verificar_vitoria(void){
 }
 
 int colocar_peca(int jogador, int *pecasA, int *pecasB){
-    int pos;
+    int pos, *pecas;
+
+    if(jogador==1)
+        pecas = pecasA;
+    else
+        pecas = pecasB;
 
     do{
         imprimir_tabuleiro();
 
-        printf("\nJogador %d, escolha uma posicao: ", jogador);
+        printf("\nJogador %d, escolha uma posicao (%d pecas restantes): ", jogador, *pecas);
         while(scanf("%d", &pos) != 1){
             printf("Digite um valor inteiro: ");
             while (getchar() != '\n');
@@ -169,6 +174,7 @@ int colocar_peca(int jogador, int *pecasA, int *pecasB){
     } while(!posicao_valida(pos) || !posicao_vazia(pos));
 
     tabuleiro[pos] = jogador;
+    (*pecas)--;
     return pos;
 }
 
