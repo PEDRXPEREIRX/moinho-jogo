@@ -91,7 +91,7 @@ void imprimir_tabuleiro(void) {
 }
 
 int posicao_valida(int pos){
-    return (pos >=0 && pos <= 23);
+    return (pos >=0 && pos < 24);
 }
 
 int posicao_vazia(int pos){
@@ -138,6 +138,10 @@ int verificar_vitoria(void){
         if(tabuleiro[i] == 2)
             cont2++;
     }
+
+    printf("\nJogador 1: %d pecas!", cont1);
+    printf("\nJogador 2: %d pecas!\n", cont2);
+
     if(cont1<3 || bloqueado(1))
         return 2;
     if(cont2<3 || bloqueado(2))
@@ -169,10 +173,9 @@ int colocar_peca(int jogador){
 }
 
 void remover_peca(int jogador){
-    int pos, oponente=1;
+    int pos, oponente;
 
-    if(jogador==1)
-        oponente = 2;
+    oponente = (jogador==1) ? 2:1;
 
     do{
         imprimir_tabuleiro();
@@ -212,13 +215,13 @@ int mover_peca(int jogador){
     } while(!posicao_valida(posA) || tabuleiro[posA] != jogador);
 
     do{
-        printf("Escolha a posicao valida: ");
+        printf("Escolha a posicao destino: ");
         while(scanf("%d", &posB) != 1){
             printf("Digite um valor inteiro: ");
             while (getchar() != '\n');
         }
         if(!posicao_valida(posB))
-            printf("Posicao e invalida!\n");
+            printf("Posicao invalida!\n");
         else if(!posicao_vazia(posB))
             printf("Posicao ocupada!\n");
         else if(!vizinhos_validos(posA, posB))
@@ -232,7 +235,7 @@ int mover_peca(int jogador){
 }
 
 int main(){
-    int jogador = 1, pos, vencedor;
+    int jogador = 1, jogA = 9, jogB = 9, pos, vencedor;
 
     for(int i=0; i<18; i++){
         pos = colocar_peca(jogador);
