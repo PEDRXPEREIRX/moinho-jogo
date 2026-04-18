@@ -58,36 +58,22 @@ char sinal(int pos){
 }
 
 void imprimir_tabuleiro(void) {
-    printf("\n             MOINHO\n\n");
-    printf("  %c------------%c------------%c\n", sinal(0), sinal(1), sinal(2));
-    printf("  |            |            |\n");
-    printf("  |   %c--------%c--------%c   |\n", sinal(3), sinal(4), sinal(5));
-    printf("  |   |        |        |   |\n");
-    printf("  |   |   %c----%c----%c   |   |\n", sinal(6), sinal(7), sinal(8));
-    printf("  |   |   |         |   |   |\n");
-    printf("  %c---%c---%c         %c---%c---%c\n", sinal(9), sinal(10), sinal(11), sinal(12), sinal(13), sinal(14));
-    printf("  |   |   |         |   |   |\n");
-    printf("  |   |   %c----%c----%c   |   |\n", sinal(15), sinal(16), sinal(17));
-    printf("  |   |        |        |   |\n");
-    printf("  |   %c--------%c--------%c   |\n", sinal(18), sinal(19), sinal(20));
-    printf("  |            |            |\n");
-    printf("  %c------------%c------------%c\n\n", sinal(21), sinal(22), sinal(23));
+    printf("\n            MOINHO                      REFERENCIA\n\n");
+    printf("  %c------------%c------------%c  0------------1------------2\n", sinal(0), sinal(1), sinal(2));
+    printf("  |            |            |  |            |            |\n");
+    printf("  |   %c--------%c--------%c   |  |   3--------4--------5   |\n", sinal(3), sinal(4), sinal(5));
+    printf("  |   |        |        |   |  |   |        |        |   |\n");
+    printf("  |   |   %c----%c----%c   |   |  |   |   6----7----8   |   |\n", sinal(6), sinal(7), sinal(8));
+    printf("  |   |   |         |   |   |  |   |   |         |   |   |\n");
+    printf("  %c---%c---%c         %c---%c---%c  9---10--11        12--13--14\n", sinal(9), sinal(10), sinal(11), sinal(12), sinal(13), sinal(14));
+    printf("  |   |   |         |   |   |  |   |   |         |   |   |\n");
+    printf("  |   |   %c----%c----%c   |   |  |   |   15---16---17  |   |\n", sinal(15), sinal(16), sinal(17));
+    printf("  |   |        |        |   |  |   |        |        |   |\n");
+    printf("  |   %c--------%c--------%c   |  |   18-------19-------20  |\n", sinal(18), sinal(19), sinal(20));
+    printf("  |            |            |  |            |            |\n");
+    printf("  %c------------%c------------%c  21-----------22-----------23\n\n", sinal(21), sinal(22), sinal(23));
     printf("  Jogador 1: X    Jogador 2: O\n\n");
 
-    printf("          REFERENCIA\n\n");
-    printf("  0------------1------------2\n");
-    printf("  |            |            |\n");
-    printf("  |   3--------4--------5   |\n");
-    printf("  |   |        |        |   |\n");
-    printf("  |   |   6----7----8   |   |\n");
-    printf("  |   |   |         |   |   |\n");
-    printf("  9---10--11        12--13--14\n");
-    printf("  |   |   |         |   |   |\n");
-    printf("  |   |   15---16---17  |   |\n");
-    printf("  |   |        |        |   |\n");
-    printf("  |   18-------19-------20  |\n");
-    printf("  |            |            |\n");
-    printf("  21-----------22-----------23\n\n");
 }
 
 int posicao_valida(int pos){
@@ -130,21 +116,28 @@ int bloqueado(int jogador){
     return 1;
 }
 
+int bloqueado_peca(int pos){
+    for(int i=0; i<4; i++)
+        if(vizinhos[pos][i] != -1 && posicao_vazia(vizinhos[pos][i]))
+            return 0;
+    return 1;
+}
+
 int verificar_vitoria(void){
-    int cont1=0, cont2=0;
+    int contA=0, contB=0;
     for(int i=0; i<24; i++){
         if(tabuleiro[i] == 1)
-            cont1++;
+            contA++;
         if(tabuleiro[i] == 2)
-            cont2++;
+            contB++;
     }
 
-    printf("\nJogador 1: %d pecas!", cont1);
-    printf("\nJogador 2: %d pecas!\n", cont2);
+    printf("\nJogador 1: %d pecas!", contA);
+    printf("\nJogador 2: %d pecas!\n", contB);
 
-    if(cont1<3 || bloqueado(1))
+    if(contA<3 || bloqueado(1))
         return 2;
-    if(cont2<3 || bloqueado(2))
+    if(contB<3 || bloqueado(2))
         return 1;
     return 0;
 }
@@ -167,9 +160,9 @@ int colocar_peca(int jogador, int *pecasA, int *pecasB){
         }
 
         if(!posicao_valida(pos))
-        printf("\nPosicao invalida! Escolha outra: \n");
+        printf("\nPosicao invalida! Escolha outra. ");
         else if(!posicao_vazia(pos))
-            printf("\nPosicao ocupada! Escolha outra: \n");
+            printf("\nPosicao ocupada! Escolha outra. ");
 
     } while(!posicao_valida(pos) || !posicao_vazia(pos));
 
@@ -193,11 +186,11 @@ void remover_peca(int jogador){
         }
 
         if(!posicao_valida(pos))
-            printf("Posicao invalida! Escolha outra: \n");
+            printf("Posicao invalida! Escolha outra. \n");
         else if(tabuleiro[pos] != oponente)
-            printf("Nenhuma peca do oponente aqui! Escolha outra: \n");
+            printf("Nenhuma peca do oponente aqui! Escolha outra. \n");
         else if(moinho_valido(oponente, pos) && !todas_no_moinho(oponente))
-            printf("Peca esta em moinho! Escolha outra: \n");
+            printf("Peca esta em moinho! Escolha outra. \n");
     } while(!posicao_valida(pos) || tabuleiro[pos] != oponente || (moinho_valido(oponente, pos) && !todas_no_moinho(oponente)));
     tabuleiro[pos] = 0;
 }
@@ -205,9 +198,9 @@ void remover_peca(int jogador){
 int mover_peca(int jogador){
     int posA, posB = -1;
 
-    do{
-        imprimir_tabuleiro();
+    imprimir_tabuleiro();
 
+    do{
         printf("Jogador %d, escolha uma peca para mover: ", jogador);
         while(scanf("%d", &posA) != 1){
             printf("Digite um valor inteiro: ");
@@ -215,10 +208,12 @@ int mover_peca(int jogador){
         }
 
         if(!posicao_valida(posA))
-            printf("Posicao invalida!\n");
+            printf("Posicao invalida! \n");
         else if(tabuleiro[posA] != jogador)
-            printf("Nao e sua peca para mover!");
-    } while(!posicao_valida(posA) || tabuleiro[posA] != jogador);
+            printf("Nao e sua peca para mover! \n");
+        else if(bloqueado_peca(posA))
+            printf("Peca bloqueada! Escolha outra. \n");
+    } while(!posicao_valida(posA) || tabuleiro[posA] != jogador || bloqueado_peca(posA));
 
     do{
         printf("Escolha a posicao destino: ");
